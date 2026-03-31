@@ -152,12 +152,12 @@ export function SelectedWorks() {
               className="relative w-full max-w-6xl bg-surface border border-stroke rounded-3xl overflow-hidden flex flex-col max-h-[90vh]"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex justify-between items-center p-6 border-b border-stroke sticky top-0 bg-surface/90 backdrop-blur z-10">
-                <div className="flex flex-col md:flex-row md:items-center gap-4">
+              <div className="flex justify-between items-start p-4 sm:p-6 border-b border-stroke sticky top-0 bg-surface/90 backdrop-blur z-10 gap-4">
+                <div className="flex flex-col md:flex-row md:items-center gap-3 md:gap-4">
                   <h3 className="text-xl md:text-2xl font-display text-text-primary">
                     Pagsanjan Data Disability Management System
                   </h3>
-                  <div className="flex items-center gap-3">
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                     <a 
                       href="https://github.com/Suarenz/PDAO-system" 
                       target="_blank" 
@@ -229,12 +229,12 @@ export function SelectedWorks() {
               className="relative w-full max-w-6xl bg-surface border border-stroke rounded-3xl overflow-hidden flex flex-col max-h-[90vh]"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex justify-between items-center p-6 border-b border-stroke sticky top-0 bg-surface/90 backdrop-blur z-10">
-                <div className="flex flex-col md:flex-row md:items-center gap-4">
+              <div className="flex justify-between items-start p-4 sm:p-6 border-b border-stroke sticky top-0 bg-surface/90 backdrop-blur z-10 gap-4">
+                <div className="flex flex-col md:flex-row md:items-center gap-3 md:gap-4">
                   <h3 className="text-xl md:text-2xl font-display text-text-primary">
                     LSPU Knowledge Management Information System
                   </h3>
-                  <div className="flex items-center gap-3">
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                     <a 
                       href="https://lspu-kmis.onrender.com" 
                       target="_blank" 
@@ -314,8 +314,8 @@ export function SelectedWorks() {
               className="relative w-full max-w-6xl bg-surface border border-stroke rounded-3xl overflow-hidden flex flex-col max-h-[90vh]"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex justify-between items-center p-6 border-b border-stroke sticky top-0 bg-surface/90 backdrop-blur z-10">
-                <div className="flex flex-col md:flex-row md:items-center gap-4">
+              <div className="flex justify-between items-start p-4 sm:p-6 border-b border-stroke sticky top-0 bg-surface/90 backdrop-blur z-10 gap-4">
+                <div className="flex flex-col md:flex-row md:items-center gap-3 md:gap-4">
                   <h3 className="text-xl md:text-2xl font-display text-text-primary">
                     Smart Robot Car Powered with ESP32 (Tekla Cybertruck)
                   </h3>

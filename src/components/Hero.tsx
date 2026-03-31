@@ -123,13 +123,17 @@ export function Hero() {
           </div>
         </div>
         
-        <h1 className="name-reveal text-5xl md:text-7xl lg:text-8xl font-sans font-bold leading-[0.9] tracking-tight text-text-primary mb-6 cursor-default">
-          {Array.from("Jan Reinnen Calapao").map((char, index) => (
-            <span key={index} className={cn(
-              "inline-block transition-all duration-300 hover:scale-110 hover:-translate-y-2",
-              theme === 'light' ? "hover:drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]" : "hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]"
-            )}>
-              {char === " " ? "\u00A0" : char}
+        <h1 className="name-reveal flex flex-wrap justify-center text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-sans font-bold leading-[0.9] tracking-tight text-text-primary mb-6 cursor-default">
+          {"Jan Reinnen Calapao".split(" ").map((word, wordIndex) => (
+            <span key={wordIndex} className="inline-flex whitespace-pre mr-[0.3em] last:mr-0">
+              {Array.from(word).map((char, charIndex) => (
+                <span key={charIndex} className={cn(
+                  "inline-block transition-all duration-300 hover:scale-110 hover:-translate-y-2",
+                  theme === 'light' ? "hover:drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]" : "hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]"
+                )}>
+                  {char}
+                </span>
+              ))}
             </span>
           ))}
         </h1>
