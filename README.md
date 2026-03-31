@@ -61,5 +61,5 @@ A modern, interactive professional portfolio showcasing projects, selected works
 
 ## 🌐 Deployed Version
 
-Visit the live repository at [https://github.com/Suarenz/Portfolio](https://github.com/Suarenz/Portfolio).
+Visit the live repository "https://suarenz-portfolio.vercel.app".
 
