@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import gsap from 'gsap';
+import { motion } from 'motion/react';
 import { cn } from '../lib/utils';
 import { ArrowUpRight, Sun, Moon } from 'lucide-react';
 import { useTheme } from './ThemeProvider';
 import { Background } from './Background';
 import { ContactModal } from './ContactModal';
+import { Magnetic } from './Magnetic';
 
 const roles = ["Creative", "Fullstack", "Scholar"];
 
@@ -30,23 +31,24 @@ export function Hero() {
     return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
-    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-    
-    tl.fromTo(".name-reveal span", 
-      { opacity: 0, y: 50 },
-      { opacity: 1, y: 0, duration: 0.5, stagger: 0.05, delay: 0.1 }
-    );
-    
-    tl.fromTo(".blur-in",
-      { opacity: 0, filter: "blur(10px)", y: 20 },
-      { opacity: 1, filter: "blur(0px)", y: 0, duration: 1, stagger: 0.1 },
-      "-=0.8"
-    );
-  }, []);
+  const containerVars = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.1,
+      }
+    }
+  };
+
+  const itemVars = {
+    hidden: { opacity: 0, y: 30, filter: "blur(10px)" },
+    show: { opacity: 1, y: 0, filter: "blur(0px)", transition: { type: "spring", stiffness: 100, damping: 15 } }
+  };
 
   return (
-    <section id="home" className="relative w-full h-[90vh] overflow-hidden flex flex-col items-center justify-center">
+    <section id="home" className="relative w-full min-h-[100dvh] py-24 md:py-0 overflow-hidden flex flex-col items-center justify-center">
       {/* Background */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <Background />
@@ -60,44 +62,53 @@ export function Hero() {
       {/* Navbar */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex justify-center pt-4 md:pt-6 px-4">
         <div className={cn(
-          "inline-flex items-center rounded-full backdrop-blur-md border border-white/10 bg-surface px-2 py-2 transition-shadow duration-300",
-          scrolled ? "shadow-md shadow-black/10" : ""
+          "inline-flex items-center rounded-full backdrop-blur-2xl border border-white/10 px-2 py-2 transition-all duration-300",
+          theme === 'dark' ? "bg-white/5" : "bg-black/5",
+          scrolled ? "shadow-[0_8px_32px_rgba(0,0,0,0.12)]" : ""
         )}>
           {/* Nav Links */}
           <div className="flex items-center gap-1">
             {["Home", "Work", "Resume"].map((link, i) => (
-              <a
-                key={link}
-                href={`#${link.toLowerCase()}`}
-                className={cn(
-                  "text-xs sm:text-sm rounded-full px-3 sm:px-4 py-1.5 sm:py-2 transition-colors",
-                  i === 0 
-                    ? "text-text-primary bg-stroke/50" 
-                    : "text-muted hover:text-text-primary hover:bg-stroke/50"
-                )}
-              >
-                {link}
-              </a>
+              <Magnetic key={link} strength={0.3}>
+                <a
+                  href={`#${link.toLowerCase()}`}
+                  className={cn(
+                    "text-xs sm:text-sm rounded-full px-3 sm:px-4 py-1.5 sm:py-2 transition-colors",
+                    i === 0 
+                      ? "text-text-primary bg-stroke/50" 
+                      : "text-muted hover:text-text-primary hover:bg-stroke/50"
+                  )}
+                >
+                  {link}
+                </a>
+              </Magnetic>
             ))}
           </div>
 
-          <div className="w-px h-5 bg-stroke mx-1" />
+          <div className="w-px h-5 bg-white/20 mx-2" />
 
           {/* Theme Toggle */}
-          <button 
-            onClick={toggleTheme}
-            className="p-1.5 sm:p-2 rounded-full text-muted hover:text-text-primary hover:bg-stroke/50 transition-colors"
-            aria-label="Toggle theme"
-          >
-            {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-          </button>
+          <Magnetic strength={0.3}>
+            <button 
+              onClick={toggleTheme}
+              className="p-1.5 sm:p-2 rounded-full text-muted hover:text-text-primary hover:bg-stroke/50 transition-colors"
+              aria-label="Toggle theme"
+            >
+              {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            </button>
+          </Magnetic>
         </div>
       </nav>
 
       {/* Hero Content */}
-      <div className="relative z-10 flex flex-col items-center text-center px-4 mt-16">
+      <motion.div 
+        variants={containerVars}
+        initial="hidden"
+        animate="show"
+        className="relative z-10 flex flex-col items-center text-center px-4 mt-8 sm:mt-16 md:mt-20"
+      >
         {/* Photo Container */}
-        <div className="blur-in relative w-40 h-40 md:w-52 md:h-52 mb-12 group mx-auto mt-4">
+        <motion.div variants={itemVars} className="relative w-32 h-32 sm:w-40 sm:h-40 md:w-52 md:h-52 mb-6 sm:mb-8 md:mb-12 group mx-auto mt-4">
           {/* Ambient Glowing Aura */}
           <div className={cn(
             "absolute -inset-4 rounded-full opacity-40 blur-2xl group-hover:opacity-70 transition-opacity duration-700 animate-[spin_8s_linear_infinite]",
@@ -121,9 +132,9 @@ export function Hero() {
             {/* Soft inner highlight for 3D depth */}
             <div className="absolute inset-0 rounded-full border border-white/20 pointer-events-none mix-blend-overlay" />
           </div>
-        </div>
+        </motion.div>
         
-        <h1 className="name-reveal flex flex-wrap justify-center text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-sans font-bold leading-[0.9] tracking-tight text-text-primary mb-6 cursor-default">
+        <motion.h1 variants={itemVars} className="flex flex-wrap justify-center text-[2.25rem] leading-[1.1] sm:text-5xl md:text-7xl lg:text-8xl font-sans font-bold sm:leading-[0.9] tracking-tight text-text-primary mb-4 sm:mb-6 cursor-default">
           {"Jan Reinnen Calapao".split(" ").map((word, wordIndex) => (
             <span key={wordIndex} className="inline-flex whitespace-pre mr-[0.3em] last:mr-0">
               {Array.from(word).map((char, charIndex) => (
@@ -136,39 +147,43 @@ export function Hero() {
               ))}
             </span>
           ))}
-        </h1>
+        </motion.h1>
         
-        <div className={cn(
-          "blur-in text-xl md:text-2xl text-text-primary mb-12 transition-all duration-300 cursor-default hover:scale-105",
+        <motion.div variants={itemVars} className={cn(
+          "text-lg sm:text-xl md:text-2xl text-text-primary mb-8 sm:mb-12 transition-all duration-300 cursor-default hover:scale-105",
           theme === 'light' ? "drop-shadow-[0_1px_2px_rgba(0,0,0,0.1)] hover:drop-shadow-[0_4px_8px_rgba(0,0,0,0.2)]" : "hover:drop-shadow-[0_0_12px_rgba(255,255,255,0.4)]"
         )}>
           A <span key={roleIndex} className="font-display italic text-text-primary animate-role-fade-in inline-block min-w-[100px] text-left hover:text-[#4E85BF] transition-colors">
             {roles[roleIndex]}
           </span> based in Calauan, Laguna.
-        </div>
+        </motion.div>
         
-        <div className="blur-in inline-flex flex-col sm:flex-row justify-center gap-4">
-          <a
-            href="#work"
-            className="group relative rounded-full text-sm px-7 py-3.5 hover:scale-105 transition-transform duration-300 bg-text-primary text-bg hover:bg-bg hover:text-text-primary overflow-hidden inline-block"
-          >
-            <span className="absolute inset-0 rounded-full accent-gradient opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <span className="absolute inset-[2px] rounded-full bg-bg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <span className="relative z-10 font-medium text-center">View Projects</span>
-          </a>
+        <motion.div variants={itemVars} className="inline-flex flex-col sm:flex-row justify-center gap-4">
+          <Magnetic strength={0.4}>
+            <a
+              href="#work"
+              className="group relative rounded-full text-sm px-7 py-3.5 hover:scale-105 transition-transform duration-300 bg-text-primary text-bg hover:bg-bg hover:text-text-primary overflow-hidden inline-block border-[1px] border-white/10"
+            >
+              <span className="absolute inset-0 rounded-full accent-gradient opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <span className="absolute inset-[2px] rounded-full bg-bg opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-3xl" />
+              <span className="relative z-10 font-medium text-center">View Projects</span>
+            </a>
+          </Magnetic>
           
-          <button 
-            onClick={() => setIsContactModalOpen(true)}
-            className="group relative rounded-full text-sm px-7 py-3.5 hover:scale-105 transition-transform duration-300 border-2 border-stroke bg-bg text-text-primary hover:border-transparent">
-            <span className="absolute inset-[-2px] rounded-full accent-gradient opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <span className="absolute inset-[2px] rounded-full bg-bg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <span className="relative z-10 font-medium">Contact Me</span>
-          </button>
-        </div>
-      </div>
+          <Magnetic strength={0.4}>
+            <button 
+              onClick={() => setIsContactModalOpen(true)}
+              className="group relative rounded-full text-sm px-7 py-3.5 hover:scale-105 transition-transform duration-300 border-[1px] border-white/20 bg-bg/50 backdrop-blur-md text-text-primary hover:border-transparent">
+              <span className="absolute inset-[-2px] rounded-full accent-gradient opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <span className="absolute inset-[2px] rounded-full bg-bg opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-3xl" />
+              <span className="relative z-10 font-medium">Contact Me</span>
+            </button>
+          </Magnetic>
+        </motion.div>
+      </motion.div>
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 z-10">
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden [@media(min-height:650px)]:flex flex-col items-center gap-4 z-10">
         <span className="text-xs text-muted uppercase tracking-[0.2em]">SCROLL</span>
         <div className="w-px h-10 bg-stroke relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-1/2 bg-text-primary animate-scroll-down" />
