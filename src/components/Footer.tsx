@@ -1,7 +1,4 @@
-import React, { useEffect, useRef } from 'react';
-import { motion } from 'motion/react';
-import gsap from 'gsap';
-import { Mail } from 'lucide-react';
+import React from 'react';
 import { useTheme } from './ThemeProvider';
 
 const socials = [
@@ -12,20 +9,7 @@ const socials = [
 ];
 
 export function Footer() {
-  const marqueeRef = useRef<HTMLDivElement>(null);
   const { theme } = useTheme();
-
-  useEffect(() => {
-    let ctx = gsap.context(() => {
-      gsap.to(marqueeRef.current, {
-        xPercent: -50,
-        duration: 40,
-        ease: "none",
-        repeat: -1,
-      });
-    });
-    return () => ctx.revert();
-  }, []);
 
   return (
     <>
@@ -38,9 +22,6 @@ export function Footer() {
         </div>
 
         <div className="relative z-10 flex flex-col items-center justify-center h-[30vh] min-h-[300px]">
-          {/* GSAP Marquee */}
-
-
           {/* CTA */}
           <div className="flex flex-col md:flex-row items-center gap-6">
             <a
