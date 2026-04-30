@@ -8,6 +8,7 @@ import { motion } from 'motion/react';
 import { Hero } from './components/Hero';
 import { SelectedWorks } from './components/SelectedWorks';
 import { Certifications } from './components/Certifications';
+import { Badges } from './components/Badges';
 import { ToolsAndTech } from './components/ToolsAndTech';
 import { Footer } from './components/Footer';
 import { CustomCursor } from './components/CustomCursor';
@@ -33,6 +34,7 @@ export default function App() {
         <Hero />
         <SelectedWorks />
         <Certifications />
+        <Badges />
         <ToolsAndTech />
         <Footer />
       </motion.main>

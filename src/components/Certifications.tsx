@@ -59,6 +59,13 @@ const certifications = [
     certificate: "/assets/DATA FUTURE PH.jfif",
     issuer: "Data Analytics Philippines",
     date: "2025"
+  },
+  {
+    title: "Cloud Computing",
+    logo: "/assets/it.png",
+    certificate: "/assets/Cloud-Computing.jpg",
+    issuer: "Certiport",
+    date: "2026"
   }
 ];
 

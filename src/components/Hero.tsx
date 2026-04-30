@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
-import { cn } from '../lib/utils';
+import { cn, calculateAge } from '../lib/utils';
 import { ArrowUpRight, Sun, Moon } from 'lucide-react';
 import { useTheme } from './ThemeProvider';
 import { Background } from './Background';
@@ -134,28 +134,68 @@ export function Hero() {
           </div>
         </motion.div>
         
-        <motion.h1 variants={itemVars} className="flex flex-wrap justify-center text-[2.25rem] leading-[1.1] sm:text-5xl md:text-7xl lg:text-8xl font-sans font-bold sm:leading-[0.9] tracking-tight text-text-primary mb-4 sm:mb-6 cursor-default">
+        <motion.h1 
+          variants={itemVars} 
+          className={cn(
+            "flex flex-wrap justify-center text-[2.25rem] leading-[1.2] sm:text-5xl md:text-7xl lg:text-8xl font-sans font-bold sm:leading-[1.1] tracking-tight mb-4 sm:mb-8 cursor-default py-2",
+            "bg-clip-text text-transparent bg-gradient-to-b",
+            theme === 'light' 
+              ? "from-gray-700 via-gray-900 to-black drop-shadow-[0_4px_6px_rgba(0,0,0,0.4)]" 
+              : "from-white via-gray-300 to-gray-600 drop-shadow-[0_5px_8px_rgba(0,0,0,0.9)]"
+          )}
+        >
           {"Jan Reinnen Calapao".split(" ").map((word, wordIndex) => (
             <span key={wordIndex} className="inline-flex whitespace-pre mr-[0.3em] last:mr-0">
-              {Array.from(word).map((char, charIndex) => (
-                <span key={charIndex} className={cn(
-                  "inline-block transition-all duration-300 hover:scale-110 hover:-translate-y-2",
-                  theme === 'light' ? "hover:drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]" : "hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]"
-                )}>
+              {Array.from(word).map((char, charIndex) => {
+                const xOffsets = [-300, 300, 0, 0, -200, 200, -250, 250];
+                const yOffsets = [0, 0, -300, 300, -200, 200, 250, -250];
+                const idx = (wordIndex * 7 + charIndex) % 8;
+                
+                return (
+                <motion.span 
+                  key={charIndex}
+                  initial={{ opacity: 0, x: xOffsets[idx], y: yOffsets[idx], rotate: (idx % 2 === 0 ? -45 : 45) }}
+                  animate={{ opacity: 1, x: 0, y: 0, rotate: 0 }}
+                  transition={{
+                    type: "spring",
+                    damping: 16,
+                    stiffness: 80,
+                    delay: 0.2 + (wordIndex * 0.3) + (charIndex * 0.08)
+                  }}
+                  className={cn(
+                    "inline-block transition-transform duration-300 hover:scale-125 hover:-translate-y-3",
+                    theme === 'light' ? "hover:drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)]" : "hover:drop-shadow-[0_0_12px_rgba(255,255,255,0.8)]"
+                  )}
+                >
                   {char}
-                </span>
-              ))}
+                </motion.span>
+              )})}
             </span>
           ))}
         </motion.h1>
         
-        <motion.div variants={itemVars} className={cn(
-          "text-lg sm:text-xl md:text-2xl text-text-primary mb-8 sm:mb-12 transition-all duration-300 cursor-default hover:scale-105",
-          theme === 'light' ? "drop-shadow-[0_1px_2px_rgba(0,0,0,0.1)] hover:drop-shadow-[0_4px_8px_rgba(0,0,0,0.2)]" : "hover:drop-shadow-[0_0_12px_rgba(255,255,255,0.4)]"
-        )}>
-          A <span key={roleIndex} className="font-display italic text-text-primary animate-role-fade-in inline-block min-w-[100px] text-left hover:text-[#4E85BF] transition-colors">
-            {roles[roleIndex]}
-          </span> based in Calauan, Laguna.
+        <motion.div variants={itemVars} className="hero-intro text-center flex flex-col gap-2 md:gap-3 mb-8 sm:mb-12 capitalize">
+          <h2 className={cn(
+            "intro-heading text-lg sm:text-xl font-medium",
+            theme === 'light' ? "text-slate-800 drop-shadow-[0_1px_3px_rgba(255,255,255,0.8)]" : "text-slate-200 drop-shadow-[0_0_8px_rgba(255,255,255,0.1)]"
+          )}>
+            <span className="rotating-wrapper block-1 italic">
+              <span className="phrase">I build purpose-driven software.</span>
+              <span className="phrase">I build solutions to complex problems.</span>
+              <span className="phrase">I build digital tools that empower users.</span>
+            </span>
+          </h2>
+
+          <h3 className={cn(
+            "intro-subheading block-2-container text-sm sm:text-base font-normal",
+            theme === 'light' ? "text-slate-800 drop-shadow-[0_1px_3px_rgba(255,255,255,0.8)]" : "text-slate-300 drop-shadow-[0_0_8px_rgba(255,255,255,0.1)]"
+          )}>
+            <span className="rotating-wrapper block-2 italic">
+              <span className="phrase">A {calculateAge('2003-10-07')} year old</span>
+              <span className="phrase">A Computer Science Graduate</span>
+              <span className="phrase">A Scholar based in Calauan, Laguna, Philippines</span>
+            </span>
+          </h3>
         </motion.div>
         
         <motion.div variants={itemVars} className="inline-flex flex-col sm:flex-row justify-center gap-4">
