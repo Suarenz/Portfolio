@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, X } from 'lucide-react';
@@ -73,6 +73,17 @@ export function Certifications() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [showAllModal, setShowAllModal] = useState(false);
 
+  useEffect(() => {
+    if (showAllModal || selectedImage) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [showAllModal, selectedImage]);
+
   // create a continuous array by duplicating the items to loop seamlessly at 50% translation
   const duplicatedCertifications = [...certifications, ...certifications];
 
@@ -84,8 +95,8 @@ export function Certifications() {
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
-          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1] }}
+          viewport={{ once: true, margin: "-80px" }}
           className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12 md:mb-16"
         >
           <div className="max-w-xl">
@@ -130,14 +141,14 @@ export function Certifications() {
               className="w-[280px] sm:w-[350px] flex-shrink-0 mx-3 sm:mx-4 cursor-pointer flex"
               onClick={() => setSelectedImage(entry.certificate)}
             >
-              <div className="group/card relative flex flex-col w-full rounded-[32px] bg-surface/30 border border-stroke overflow-hidden transition-all duration-300 hover:bg-surface hover:-translate-y-2 hover:shadow-2xl hover:shadow-black/50">
+              <div className="group/card relative flex flex-col w-full rounded-[32px] bg-surface/30 border border-stroke overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.25,0.1,0.25,1)] hover:bg-surface hover:-translate-y-2 hover:shadow-2xl hover:shadow-black/50">
                 
                 {/* 1. The Background/Banner (Top 60%) */}
                 <div className="relative w-full aspect-[16/10] overflow-hidden bg-white flex-shrink-0">
                   <img 
                     src={entry.certificate} 
                     alt={`${entry.title} Certificate`} 
-                    className="w-full h-full object-cover object-center group-hover/card:scale-105 transition-all duration-700"
+                    className="w-full h-full object-cover object-center group-hover/card:scale-105 transition-all duration-1000 ease-[cubic-bezier(0.25,0.1,0.25,1)] will-change-transform"
                     referrerPolicy="no-referrer"
                   />
                   {/* Dark Gradient Overlay */}
@@ -181,6 +192,7 @@ export function Certifications() {
               exit={{ opacity: 0 }}
               onClick={() => setShowAllModal(false)}
               className="fixed inset-0 z-[9998] flex items-center justify-center bg-bg/90 backdrop-blur-sm p-4 sm:p-8"
+              data-lenis-prevent
             >
               <motion.div
                 initial={{ scale: 0.95, opacity: 0, y: 20 }}
@@ -250,6 +262,7 @@ export function Certifications() {
               exit={{ opacity: 0 }}
               onClick={() => setSelectedImage(null)}
               className="fixed inset-0 z-[9999] flex items-center justify-center bg-bg/90 backdrop-blur-sm p-4 sm:p-8"
+              data-lenis-prevent
             >
               <motion.div
                 initial={{ scale: 0.95, opacity: 0, y: 20 }}

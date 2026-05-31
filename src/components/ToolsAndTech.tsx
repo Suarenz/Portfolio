@@ -55,8 +55,8 @@ export function ToolsAndTech() {
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
-          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1] }}
+          viewport={{ once: true, margin: "-80px" }}
           className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12 md:mb-16"
         >
           <div className="max-w-xl">
@@ -82,13 +82,13 @@ export function ToolsAndTech() {
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: index * 0.05 }}
+              transition={{ duration: 0.6, delay: index * 0.06, ease: [0.25, 0.1, 0.25, 1] }}
               whileHover={{ 
                 y: -5,
                 backgroundColor: 'rgba(255, 255, 255, 0.08)',
                 borderColor: 'rgba(255, 255, 255, 0.2)'
               }}
-              className="flex items-center p-4 rounded-2xl bg-surface/30 border border-stroke transition-all duration-300 gap-4 overflow-hidden min-w-0 w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-1rem)] xl:w-[calc(25%-1.125rem)]"
+              className="flex items-center p-4 rounded-2xl bg-surface/30 border border-stroke transition-all duration-500 ease-[cubic-bezier(0.25,0.1,0.25,1)] gap-4 overflow-hidden min-w-0 w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-1rem)] xl:w-[calc(25%-1.125rem)] will-change-transform"
             >
               <div className="w-10 h-10 flex-shrink-0 flex items-center justify-center">
                 {tool.CustomIcon ? (

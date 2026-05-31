@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import { ArrowRight, X, ExternalLink, Github } from 'lucide-react';
 import { cn } from '../lib/utils';
@@ -56,6 +56,17 @@ const roboticsSections = [
 export function SelectedWorks() {
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (selectedProject) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [selectedProject]);
   
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -74,8 +85,8 @@ export function SelectedWorks() {
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
-          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1] }}
+          viewport={{ once: true, margin: "-80px" }}
           className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12 md:mb-16"
         >
           <div className="max-w-xl">
@@ -100,10 +111,10 @@ export function SelectedWorks() {
             <motion.div
               layoutId={`project-${project.title}`}
               key={project.title}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: i * 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 1, delay: i * 0.15, ease: [0.25, 0.1, 0.25, 1] }}
+              viewport={{ once: true, margin: "-60px" }}
               style={{ y: i % 2 === 0 ? yParallaxFast : yParallaxSlow }}
               data-cursor="VIEW"
               className={cn(
@@ -117,7 +128,7 @@ export function SelectedWorks() {
                 src={project.image} 
                 alt={project.title}
                 className={cn(
-                  "absolute inset-0 w-full h-full transition-transform duration-700 group-hover:scale-105",
+                  "absolute inset-0 w-full h-full transition-transform duration-1000 ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover:scale-105 will-change-transform",
                   (project.title === "Pagsanjan Data Disability Management System" || project.title === "Knowledge Management Information System - LSPU" || project.title === "Smart Robot Car Powered with ESP32") ? "object-contain bg-white/5" : "object-cover"
                 )}
                 referrerPolicy="no-referrer"
@@ -147,12 +158,14 @@ export function SelectedWorks() {
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 bg-black/80 backdrop-blur-md overflow-y-auto"
             onClick={() => setSelectedProject(null)}
+            data-lenis-prevent
           >
             <motion.div
               layoutId={`project-Pagsanjan Data Disability Management System`}
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              initial={{ opacity: 0, scale: 0.9, y: 30 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ type: "spring", damping: 30, stiffness: 200, mass: 1 }}
               className="relative w-full max-w-6xl bg-surface border border-stroke rounded-3xl overflow-hidden flex flex-col max-h-[90vh]"
               onClick={(e) => e.stopPropagation()}
             >
@@ -225,11 +238,13 @@ export function SelectedWorks() {
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 bg-black/80 backdrop-blur-md overflow-y-auto"
             onClick={() => setSelectedProject(null)}
+            data-lenis-prevent
           >
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              initial={{ opacity: 0, scale: 0.9, y: 30 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ type: "spring", damping: 30, stiffness: 200, mass: 1 }}
               className="relative w-full max-w-6xl bg-surface border border-stroke rounded-3xl overflow-hidden flex flex-col max-h-[90vh]"
               onClick={(e) => e.stopPropagation()}
             >
@@ -310,11 +325,13 @@ export function SelectedWorks() {
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 bg-black/80 backdrop-blur-md overflow-y-auto"
             onClick={() => setSelectedProject(null)}
+            data-lenis-prevent
           >
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              initial={{ opacity: 0, scale: 0.9, y: 30 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ type: "spring", damping: 30, stiffness: 200, mass: 1 }}
               className="relative w-full max-w-6xl bg-surface border border-stroke rounded-3xl overflow-hidden flex flex-col max-h-[90vh]"
               onClick={(e) => e.stopPropagation()}
             >

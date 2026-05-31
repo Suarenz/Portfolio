@@ -36,15 +36,15 @@ export function Hero() {
     show: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.1,
+        staggerChildren: 0.15,
+        delayChildren: 0.2,
       }
     }
   };
 
   const itemVars = {
-    hidden: { opacity: 0, y: 30, filter: "blur(10px)" },
-    show: { opacity: 1, y: 0, filter: "blur(0px)", transition: { type: "spring", stiffness: 100, damping: 15 } }
+    hidden: { opacity: 0, y: 40, filter: "blur(12px)" },
+    show: { opacity: 1, y: 0, filter: "blur(0px)", transition: { type: "spring", stiffness: 60, damping: 20, mass: 1 } }
   };
 
   return (
@@ -62,7 +62,7 @@ export function Hero() {
       {/* Navbar */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex justify-center pt-4 md:pt-6 px-4">
         <div className={cn(
-          "inline-flex items-center rounded-full backdrop-blur-2xl border border-white/10 px-2 py-2 transition-all duration-300",
+          "inline-flex items-center rounded-full backdrop-blur-2xl border border-white/10 px-2 py-2 transition-all duration-500 ease-[cubic-bezier(0.25,0.1,0.25,1)]",
           theme === 'dark' ? "bg-white/5" : "bg-black/5",
           scrolled ? "shadow-[0_8px_32px_rgba(0,0,0,0.12)]" : ""
         )}>
@@ -111,7 +111,7 @@ export function Hero() {
         <motion.div variants={itemVars} className="relative w-32 h-32 sm:w-40 sm:h-40 md:w-52 md:h-52 mb-6 sm:mb-8 md:mb-12 group mx-auto mt-4">
           {/* Ambient Glowing Aura */}
           <div className={cn(
-            "absolute -inset-4 rounded-full opacity-40 blur-2xl group-hover:opacity-70 transition-opacity duration-700 animate-[spin_8s_linear_infinite]",
+            "absolute -inset-4 rounded-full opacity-40 blur-2xl group-hover:opacity-70 transition-opacity duration-1000 ease-out animate-[spin_12s_linear_infinite] will-change-transform",
             theme === 'dark' 
               ? "bg-gradient-to-r from-purple-500 via-indigo-500 to-pink-500" 
               : "bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400"
@@ -127,7 +127,7 @@ export function Hero() {
             <img 
               src="/assets/1x1 with new unif.jpg" 
               alt="Jan Reinnen Calapao" 
-              className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110 group-hover:rotate-1" 
+              className="w-full h-full object-cover transition-transform duration-1000 ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover:scale-110 group-hover:rotate-1 will-change-transform" 
             />
             {/* Soft inner highlight for 3D depth */}
             <div className="absolute inset-0 rounded-full border border-white/20 pointer-events-none mix-blend-overlay" />
@@ -158,12 +158,13 @@ export function Hero() {
                   animate={{ opacity: 1, x: 0, y: 0, rotate: 0 }}
                   transition={{
                     type: "spring",
-                    damping: 16,
-                    stiffness: 80,
-                    delay: 0.2 + (wordIndex * 0.3) + (charIndex * 0.08)
+                    damping: 22,
+                    stiffness: 60,
+                    mass: 1.2,
+                    delay: 0.3 + (wordIndex * 0.25) + (charIndex * 0.06)
                   }}
                   className={cn(
-                    "inline-block transition-transform duration-300 hover:scale-125 hover:-translate-y-3",
+                    "inline-block transition-all duration-500 ease-[cubic-bezier(0.25,0.1,0.25,1)] hover:scale-125 hover:-translate-y-3 will-change-transform",
                     theme === 'light' ? "hover:drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)]" : "hover:drop-shadow-[0_0_12px_rgba(255,255,255,0.8)]"
                   )}
                 >
@@ -202,7 +203,7 @@ export function Hero() {
           <Magnetic strength={0.4}>
             <a
               href="#work"
-              className="group relative rounded-full text-sm px-7 py-3.5 hover:scale-105 transition-transform duration-300 bg-text-primary text-bg hover:bg-bg hover:text-text-primary overflow-hidden inline-block border-[1px] border-white/10"
+              className="group relative rounded-full text-sm px-7 py-3.5 hover:scale-105 transition-all duration-500 ease-[cubic-bezier(0.25,0.1,0.25,1)] bg-text-primary text-bg hover:bg-bg hover:text-text-primary overflow-hidden inline-block border-[1px] border-white/10"
             >
               <span className="absolute inset-0 rounded-full accent-gradient opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <span className="absolute inset-[2px] rounded-full bg-bg opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-3xl" />
@@ -213,7 +214,7 @@ export function Hero() {
           <Magnetic strength={0.4}>
             <button 
               onClick={() => setIsContactModalOpen(true)}
-              className="group relative rounded-full text-sm px-7 py-3.5 hover:scale-105 transition-transform duration-300 border-[1px] border-white/20 bg-bg/50 backdrop-blur-md text-text-primary hover:border-transparent">
+              className="group relative rounded-full text-sm px-7 py-3.5 hover:scale-105 transition-all duration-500 ease-[cubic-bezier(0.25,0.1,0.25,1)] border-[1px] border-white/20 bg-bg/50 backdrop-blur-md text-text-primary hover:border-transparent">
               <span className="absolute inset-[-2px] rounded-full accent-gradient opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <span className="absolute inset-[2px] rounded-full bg-bg opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-3xl" />
               <span className="relative z-10 font-medium">Contact Me</span>

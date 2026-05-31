@@ -8,7 +8,8 @@ export function Magnetic({
 }: { 
   children: React.ReactNode, 
   strength?: number,
-  className?: string
+  className?: string,
+  key?: React.Key
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -34,7 +35,7 @@ export function Magnetic({
       onMouseMove={handleMouse}
       onMouseLeave={reset}
       animate={{ x, y }}
-      transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
+      transition={{ type: "spring", stiffness: 120, damping: 20, mass: 0.2 }}
       className={className}
       style={{ display: "inline-flex" }}
     >

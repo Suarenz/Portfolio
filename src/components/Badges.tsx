@@ -33,8 +33,8 @@ export function Badges() {
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
-          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1] }}
+          viewport={{ once: true, margin: "-80px" }}
           className="flex flex-col mb-12 md:mb-16"
         >
           <div className="flex items-center gap-4 mb-6">
@@ -54,15 +54,15 @@ export function Badges() {
               key={index}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: index * 0.1, ease: "easeOut" }}
-              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 1, delay: index * 0.12, ease: [0.25, 0.1, 0.25, 1] }}
+              viewport={{ once: true, margin: "-60px" }}
               className="flex flex-col items-center group"
             >
               <a 
                 href={badge.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="relative w-32 h-32 md:w-40 md:h-40 xl:w-48 xl:h-48 overflow-hidden transition-transform duration-500 ease-out group-hover:scale-110 block"
+                className="relative w-32 h-32 md:w-40 md:h-40 xl:w-48 xl:h-48 overflow-hidden transition-transform duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover:scale-110 block will-change-transform"
               >
                 <img
                   src={badge.image}
@@ -71,7 +71,7 @@ export function Badges() {
                   loading="lazy"
                 />
               </a>
-              <p className="mt-4 text-sm md:text-base font-medium text-text-secondary text-center max-w-[160px] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <p className="mt-4 text-sm md:text-base font-medium text-text-secondary text-center max-w-[160px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-[cubic-bezier(0.25,0.1,0.25,1)]">
                 {badge.title}
               </p>
             </motion.div>

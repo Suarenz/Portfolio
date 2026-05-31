@@ -27,7 +27,7 @@ export function Footer() {
             <a
               href="/assets/JanReinnen_Calapao_Resume.pdf"
               download
-              className="group relative rounded-full text-base md:text-lg px-8 py-4 text-text-primary inline-flex items-center gap-3 overflow-hidden border border-stroke bg-surface/50 backdrop-blur-md hover:border-transparent transition-transform hover:scale-105 duration-300"
+              className="group relative rounded-full text-base md:text-lg px-8 py-4 text-text-primary inline-flex items-center gap-3 overflow-hidden border border-stroke bg-surface/50 backdrop-blur-md hover:border-transparent transition-all duration-500 ease-[cubic-bezier(0.25,0.1,0.25,1)] hover:scale-105"
             >
               <span className="absolute inset-[-2px] rounded-full accent-gradient opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <span className="absolute inset-[2px] rounded-full bg-bg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />

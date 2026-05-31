@@ -63,7 +63,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-sm transition-all duration-300">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-sm transition-all duration-300" data-lenis-prevent>
       <div 
         className={cn(
           "relative w-full max-w-2xl rounded-3xl overflow-hidden shadow-2xl p-6 sm:p-10",
