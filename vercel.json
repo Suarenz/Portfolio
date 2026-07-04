@@ -1,5 +1,5 @@
 {
-  "installCommand": "cd next-portfolio && npm install",
-  "buildCommand": "cd next-portfolio && npm run build",
+  "installCommand": "npm install --prefix next-portfolio --legacy-peer-deps",
+  "buildCommand": "npm run build --prefix next-portfolio",
   "outputDirectory": "next-portfolio/out"
 }
