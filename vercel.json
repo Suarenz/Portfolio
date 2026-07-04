@@ -1,6 +1,0 @@
-{
-  "framework": null,
-  "installCommand": "cd next-portfolio && npm install",
-  "buildCommand": "cd next-portfolio && npm run build",
-  "outputDirectory": "next-portfolio/.next"
-}
