@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 720" width="800" height="720">
+  <rect width="800" height="720" rx="36" fill="#ffffff" stroke="#e0e0e0" stroke-width="6"/>
+  
+  <!-- Google Cloud Logo Header -->
+  <g transform="translate(250, 60) scale(1.15)">
+    <!-- Google multicolor text logo -->
+    <path fill="#4285F4" d="M30.6 20.3c0-.9-.08-1.7-.22-2.5H16v4.8h8.2c-.3 1.9-1.4 3.5-3 4.6v3.8h4.9c2.8-2.6 4.5-6.4 4.5-10.7z"/>
+    <path fill="#34A853" d="M16 35c4.1 0 7.5-1.3 10-3.6l-4.9-3.8c-1.3.9-3 1.4-5.1 1.4-3.9 0-7.2-2.6-8.4-6.2H2.5v3.9C5 31.7 10.1 35 16 35z"/>
+    <path fill="#FBBC05" d="M7.6 22.8c-.3-.9-.5-1.9-.5-2.8s.2-1.9.5-2.8v-3.9H2.5C1.5 15.3 1 17.6 1 20s.5 4.7 1.5 6.7l5.1-3.9z"/>
+    <path fill="#EA4335" d="M16 10c2.2 0 4.2.8 5.7 2.2l4.3-4.3C23.5 5.7 20.1 4.5 16 4.5 10.1 4.5 5 7.8 2.5 12.8l5.1 3.9c1.2-3.6 4.5-6.7 8.4-6.7z"/>
+    <!-- Cloud text -->
+    <text x="38" y="27" font-family="'Google Sans', Roboto, sans-serif" font-size="28" font-weight="500" fill="#5f6368">Cloud</text>
+  </g>
+  
+  <!-- Title Text -->
+  <text x="400" y="240" font-family="'Google Sans', Roboto, sans-serif" font-size="44" font-weight="400" fill="#3c4043" text-anchor="middle">Introduction to</text>
+  <text x="400" y="315" font-family="'Google Sans', Roboto, sans-serif" font-size="46" font-weight="400" fill="#3c4043" text-anchor="middle">Large Language</text>
+  <text x="400" y="390" font-family="'Google Sans', Roboto, sans-serif" font-size="46" font-weight="400" fill="#3c4043" text-anchor="middle">Models</text>
+  
+  <!-- Divider lines and Checkmark -->
+  <line x1="280" y1="475" x2="350" y2="475" stroke="#b0b0b0" stroke-width="2"/>
+  <circle cx="400" cy="475" r="30" fill="#4285F4"/>
+  <path d="M388 475 l8 8 l16 -16" stroke="#ffffff" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <line x1="450" y1="475" x2="520" y2="475" stroke="#b0b0b0" stroke-width="2"/>
+  
+  <!-- Bottom Text -->
+  <text x="400" y="575" font-family="'Google Sans', Roboto, sans-serif" font-size="22" font-weight="500" fill="#5f6368" text-anchor="middle" letter-spacing="4">COMPLETION BADGE</text>
+</svg>
