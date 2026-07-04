@@ -52,6 +52,11 @@ export const metadata: Metadata = {
     "fullstack developer",
     "computer science",
   ],
+  icons: {
+    icon: "/assets/1x1%20with%20new%20unif%20copy.jpg",
+    shortcut: "/assets/1x1%20with%20new%20unif%20copy.jpg",
+    apple: "/assets/1x1%20with%20new%20unif%20copy.jpg",
+  },
 };
 
 /* ------------------------------------------------------------------ */
