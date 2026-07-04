@@ -4,11 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --port=3000 --host=0.0.0.0",
-    "build": "vite build",
-    "preview": "vite preview",
-    "clean": "rm -rf dist",
-    "lint": "tsc --noEmit"
+    "dev": "npm run dev --prefix next-portfolio",
+    "build": "npm run build --prefix next-portfolio",
+    "start": "npm run start --prefix next-portfolio",
+    "lint": "npm run lint --prefix next-portfolio"
   },
   "dependencies": {
     "@google/genai": "^1.29.0",
