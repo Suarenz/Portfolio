@@ -1,4 +1,5 @@
 {
-  "buildCommand": "npm run build --prefix next-portfolio",
+  "installCommand": "cd next-portfolio && npm install",
+  "buildCommand": "cd next-portfolio && npm run build",
   "outputDirectory": "next-portfolio/out"
 }
