@@ -1,16 +1,31 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { cn } from "@/lib/utils";
+
+const RenderIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <path d="M18.263.007c-3.121-.147-5.744 2.109-6.192 5.082-.018.138-.045.272-.067.405-.696 3.703-3.936 6.507-7.827 6.507-1.388 0-2.691-.356-3.825-.979a.2024.2024 0 0 0-.302.178V24H12v-8.999c0-1.656 1.338-3 2.987-3h2.988c3.382 0 6.103-2.817 5.97-6.244-.12-3.084-2.61-5.603-5.682-5.75" />
+  </svg>
+);
+
+const VercelIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 256 222" fill="currentColor" {...props}>
+    <path d="m128 0 128 221.705H0z" />
+  </svg>
+);
+
+interface ToolItem {
+  name: string;
+  icon?: string;
+  CustomIcon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  description?: string;
+}
 
 interface ToolCategory {
   category: string;
-  items: {
-    name: string;
-    icon: string;
-    description?: string;
-  }[];
+  items: ToolItem[];
 }
 
 const techCategories: ToolCategory[] = [
@@ -94,12 +109,14 @@ const techCategories: ToolCategory[] = [
       },
       {
         name: "Render",
-        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/render/render-original.svg",
+        icon: "/assets/render.svg",
+        CustomIcon: RenderIcon,
         description: "Cloud Hosting",
       },
       {
         name: "Vercel",
-        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vercel/vercel-original.svg",
+        icon: "/vercel.svg",
+        CustomIcon: VercelIcon,
         description: "Frontend Platform",
       },
     ],
@@ -194,12 +211,19 @@ export function ToolsAndTechSection() {
                   )}
                 >
                   <div className="w-10 h-10 rounded-lg bg-gray-50 dark:bg-gray-800/50 flex items-center justify-center p-1.5 group-hover:scale-110 transition-transform duration-300">
-                    <img
-                      src={item.icon}
-                      alt={item.name}
-                      className="w-full h-full object-contain"
-                      loading="lazy"
-                    />
+                    {item.CustomIcon ? (
+                      <item.CustomIcon className="w-full h-full object-contain text-ink" />
+                    ) : (
+                      <img
+                        src={item.icon}
+                        alt={item.name}
+                        className={cn(
+                          "w-full h-full object-contain",
+                          item.name === "GitHub" && "dark:invert"
+                        )}
+                        loading="lazy"
+                      />
+                    )}
                   </div>
                   <div>
                     <h3 className="font-mono text-xs sm:text-[13px] font-medium text-ink tracking-tight">

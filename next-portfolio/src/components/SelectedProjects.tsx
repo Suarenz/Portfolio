@@ -234,10 +234,16 @@ export function SelectedProjects() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [showAllProjectsModal, setShowAllProjectsModal] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [hoveredPreview, setHoveredPreview] = useState<{
+    image: string;
+    title: string;
+    description: string;
+    moduleLabel: string;
+  } | null>(null);
 
-  /* Lock scroll when either modal is open */
+  /* Lock scroll when any modal is open */
   useEffect(() => {
-    if (selectedProject || showAllProjectsModal) {
+    if (hoveredPreview || selectedProject || showAllProjectsModal) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
@@ -245,20 +251,22 @@ export function SelectedProjects() {
     return () => {
       document.body.style.overflow = "";
     };
-  }, [selectedProject, showAllProjectsModal]);
+  }, [hoveredPreview, selectedProject, showAllProjectsModal]);
 
   /* Close on Escape */
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        if (selectedProject) {
+        if (hoveredPreview) {
+          setHoveredPreview(null);
+        } else if (selectedProject) {
           setSelectedProject(null);
         } else if (showAllProjectsModal) {
           setShowAllProjectsModal(false);
         }
       }
     },
-    [selectedProject, showAllProjectsModal]
+    [hoveredPreview, selectedProject, showAllProjectsModal]
   );
 
   useEffect(() => {
@@ -573,13 +581,37 @@ export function SelectedProjects() {
                       key={idx}
                       className="rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden bg-gray-50/30 dark:bg-gray-900/10 flex flex-col sm:flex-row gap-5 p-4 sm:p-5 items-center"
                     >
-                      <div className="w-full sm:w-1/2 aspect-[16/10] rounded-lg overflow-hidden border border-gray-200/80 dark:border-gray-800 bg-bg shrink-0">
+                      <div
+                        className="w-full sm:w-1/2 min-h-[200px] sm:min-h-[230px] aspect-[16/10] rounded-lg overflow-hidden border border-gray-200/80 dark:border-gray-800 bg-gray-100/70 dark:bg-black/40 flex items-center justify-center shrink-0 relative group/img cursor-pointer transition-all hover:border-gray-400 dark:hover:border-gray-600 shadow-sm"
+                        onMouseEnter={() => {
+                          setHoveredPreview({
+                            image: sec.image,
+                            title: sec.title,
+                            description: sec.description,
+                            moduleLabel: `MODULE ${String(idx + 1).padStart(2, "0")}`,
+                          });
+                        }}
+                        onClick={() => {
+                          setHoveredPreview({
+                            image: sec.image,
+                            title: sec.title,
+                            description: sec.description,
+                            moduleLabel: `MODULE ${String(idx + 1).padStart(2, "0")}`,
+                          });
+                        }}
+                      >
                         <img
                           src={sec.image}
                           alt={sec.title}
-                          className="w-full h-full object-cover object-top"
+                          className="w-full h-full object-contain p-2 transition-transform duration-300 group-hover/img:scale-[1.03]"
                           loading="lazy"
                         />
+                        <div className="absolute inset-0 bg-black/0 group-hover/img:bg-black/10 dark:group-hover/img:bg-white/5 transition-colors pointer-events-none flex items-end justify-end p-2.5">
+                          <span className="micro-label opacity-0 group-hover/img:opacity-100 transition-opacity bg-bg/95 backdrop-blur-sm border border-gray-200 dark:border-gray-800 px-2 py-1 rounded text-[10px] text-ink shadow-sm flex items-center gap-1 font-mono">
+                            <span>HOVER TO ENLARGE</span>
+                            <ArrowUpRight className="w-3 h-3" />
+                          </span>
+                        </div>
                       </div>
                       <div className="flex flex-col justify-center w-full sm:w-1/2">
                         <span className="micro-label mb-1.5 text-ink">
@@ -596,6 +628,74 @@ export function SelectedProjects() {
                   ))}
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Hover-Activated Full Picture Modal (Applies to all projects) ── */}
+      {hoveredPreview && (
+        <div
+          className="fixed inset-0 z-[80] flex items-center justify-center p-3 sm:p-6 bg-ink/40 dark:bg-black/70 backdrop-blur-md transition-opacity duration-200 animate-in fade-in select-none"
+          onMouseMove={(e) => {
+            // If cursor moves onto backdrop outside modal content box, close automatically
+            if (e.target === e.currentTarget) {
+              setHoveredPreview(null);
+            }
+          }}
+          onClick={() => setHoveredPreview(null)}
+        >
+          <div
+            className={cn(
+              "relative w-full max-w-5xl max-h-[92vh] flex flex-col",
+              "bg-bg border border-gray-200 dark:border-gray-800 rounded-2xl shadow-[0_30px_90px_-15px_rgba(0,0,0,0.6)]",
+              "overflow-hidden animate-in zoom-in-95 duration-200 ease-out"
+            )}
+            onClick={(e) => e.stopPropagation()}
+            onMouseLeave={() => {
+              // When cursor leaves the modal box, close automatically
+              setHoveredPreview(null);
+            }}
+          >
+            {/* Modal Header */}
+            <div className="flex items-center justify-between p-4 sm:p-5 border-b border-gray-200 dark:border-gray-800 bg-bg/95 backdrop-blur-md sticky top-0 z-10">
+              <div className="min-w-0 pr-4">
+                <span className="micro-label mb-1 block text-ink">
+                  {hoveredPreview.moduleLabel} • FULL PICTURE VIEW
+                </span>
+                <h3 className="font-sans text-base sm:text-xl font-semibold text-ink truncate">
+                  {hoveredPreview.title}
+                </h3>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <span className="hidden sm:inline-flex micro-label text-gray-400 dark:text-gray-500 font-mono text-[11px]">
+                  Hover outside to close
+                </span>
+                <button
+                  onClick={() => setHoveredPreview(null)}
+                  className="p-1.5 rounded-lg text-gray-400 hover:text-ink hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                  aria-label="Close image preview"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Modal Image Viewport */}
+            <div className="p-4 sm:p-6 overflow-y-auto flex flex-col items-center justify-center bg-gray-50/50 dark:bg-black/30 max-h-[78vh]">
+              <div className="w-full flex items-center justify-center">
+                <img
+                  src={hoveredPreview.image}
+                  alt={hoveredPreview.title}
+                  className="max-w-full max-h-[68vh] w-auto h-auto object-contain rounded-xl border border-gray-200/90 dark:border-gray-800 shadow-md bg-bg"
+                />
+              </div>
+              {hoveredPreview.description && (
+                <p className="mt-4 text-center text-xs sm:text-sm text-gray-500 dark:text-gray-400 max-w-2xl px-2 leading-relaxed">
+                  {hoveredPreview.description}
+                </p>
+              )}
             </div>
           </div>
         </div>

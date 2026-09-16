@@ -55,10 +55,16 @@ const roboticsSections = [
 
 export function SelectedWorks() {
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
+  const [hoveredPreview, setHoveredPreview] = useState<{
+    image: string;
+    title: string;
+    description: string;
+    moduleLabel: string;
+  } | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (selectedProject) {
+    if (selectedProject || hoveredPreview) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -66,7 +72,7 @@ export function SelectedWorks() {
     return () => {
       document.body.style.overflow = '';
     };
-  }, [selectedProject]);
+  }, [selectedProject, hoveredPreview]);
   
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -205,11 +211,25 @@ export function SelectedWorks() {
 
                 {pdaoSections.map((section, idx) => (
                   <div key={idx} className="space-y-4">
-                    <div className="rounded-xl overflow-hidden border border-stroke bg-bg/50">
+                    <div 
+                      className="rounded-xl overflow-hidden border border-stroke bg-bg/50 p-2 flex items-center justify-center cursor-pointer group/img relative"
+                      onMouseEnter={() => setHoveredPreview({
+                        image: section.image,
+                        title: section.title,
+                        description: section.description,
+                        moduleLabel: `MODULE ${String(idx + 1).padStart(2, "0")}`
+                      })}
+                      onClick={() => setHoveredPreview({
+                        image: section.image,
+                        title: section.title,
+                        description: section.description,
+                        moduleLabel: `MODULE ${String(idx + 1).padStart(2, "0")}`
+                      })}
+                    >
                       <img
                         src={section.image}
                         alt={section.title}
-                        className="w-full h-auto object-cover md:object-contain min-h-[300px] md:max-h-[85vh] block"
+                        className="w-full h-auto max-h-[70vh] object-contain transition-transform duration-300 group-hover/img:scale-[1.02] block"
                         loading="lazy"
                       />
                     </div>
@@ -292,11 +312,25 @@ export function SelectedWorks() {
 
                 {kmisSections.map((section, idx) => (
                   <div key={idx} className="space-y-4">
-                    <div className="rounded-xl overflow-hidden border border-stroke bg-bg/50">
+                    <div 
+                      className="rounded-xl overflow-hidden border border-stroke bg-bg/50 p-2 flex items-center justify-center cursor-pointer group/img relative"
+                      onMouseEnter={() => setHoveredPreview({
+                        image: section.image,
+                        title: section.title,
+                        description: section.description,
+                        moduleLabel: `MODULE ${String(idx + 1).padStart(2, "0")}`
+                      })}
+                      onClick={() => setHoveredPreview({
+                        image: section.image,
+                        title: section.title,
+                        description: section.description,
+                        moduleLabel: `MODULE ${String(idx + 1).padStart(2, "0")}`
+                      })}
+                    >
                       <img
                         src={section.image}
                         alt={section.title}
-                        className="w-full h-auto object-cover md:object-contain min-h-[300px] md:max-h-[85vh] block"
+                        className="w-full h-auto max-h-[70vh] object-contain transition-transform duration-300 group-hover/img:scale-[1.02] block"
                         loading="lazy"
                       />
                     </div>
@@ -362,11 +396,25 @@ export function SelectedWorks() {
 
                 {roboticsSections.map((section, idx) => (
                   <div key={idx} className="space-y-4">
-                    <div className="rounded-xl overflow-hidden border border-stroke bg-bg/50">
+                    <div 
+                      className="rounded-xl overflow-hidden border border-stroke bg-bg/50 p-2 flex items-center justify-center cursor-pointer group/img relative"
+                      onMouseEnter={() => setHoveredPreview({
+                        image: section.image,
+                        title: section.title,
+                        description: section.description,
+                        moduleLabel: `MODULE ${String(idx + 1).padStart(2, "0")}`
+                      })}
+                      onClick={() => setHoveredPreview({
+                        image: section.image,
+                        title: section.title,
+                        description: section.description,
+                        moduleLabel: `MODULE ${String(idx + 1).padStart(2, "0")}`
+                      })}
+                    >
                       <img
                         src={section.image}
                         alt={section.title}
-                        className="w-full h-auto object-cover md:object-contain min-h-[300px] md:max-h-[85vh] block"
+                        className="w-full h-auto max-h-[70vh] object-contain transition-transform duration-300 group-hover/img:scale-[1.02] block"
                         loading="lazy"
                       />
                     </div>
@@ -380,6 +428,68 @@ export function SelectedWorks() {
                     </div>
                   </div>
                 ))}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Hover Image Preview Modal */}
+      <AnimatePresence>
+        {hoveredPreview && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[80] flex items-center justify-center p-4 sm:p-8 bg-black/80 backdrop-blur-md select-none"
+            onMouseMove={(e) => {
+              if (e.target === e.currentTarget) {
+                setHoveredPreview(null);
+              }
+            }}
+            onClick={() => setHoveredPreview(null)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="relative w-full max-w-5xl bg-surface border border-stroke rounded-3xl overflow-hidden flex flex-col max-h-[92vh] shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+              onMouseLeave={() => setHoveredPreview(null)}
+            >
+              <div className="flex justify-between items-center p-4 sm:p-5 border-b border-stroke bg-surface/90 backdrop-blur z-10">
+                <div>
+                  <span className="text-xs uppercase tracking-widest text-muted block mb-1">
+                    {hoveredPreview.moduleLabel} • FULL VIEW
+                  </span>
+                  <h3 className="text-lg md:text-xl font-display text-text-primary">
+                    {hoveredPreview.title}
+                  </h3>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="text-xs text-muted font-mono hidden sm:inline-block">
+                    Hover outside to close
+                  </span>
+                  <button
+                    onClick={() => setHoveredPreview(null)}
+                    className="p-2 rounded-full hover:bg-stroke text-muted hover:text-text-primary transition-colors"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
+
+              <div className="p-4 sm:p-6 flex flex-col items-center justify-center bg-bg/40 max-h-[78vh] overflow-y-auto">
+                <img
+                  src={hoveredPreview.image}
+                  alt={hoveredPreview.title}
+                  className="max-w-full max-h-[68vh] object-contain rounded-xl border border-stroke shadow-md"
+                />
+                {hoveredPreview.description && (
+                  <p className="mt-4 text-center text-sm text-muted max-w-2xl px-2">
+                    {hoveredPreview.description}
+                  </p>
+                )}
               </div>
             </motion.div>
           </motion.div>

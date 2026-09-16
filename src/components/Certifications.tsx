@@ -5,6 +5,13 @@ import { ArrowRight, X } from 'lucide-react';
 
 const certifications = [
   {
+    title: "Microsoft Artificial Intelligence Course: Azure AI Fundamentals",
+    logo: "/assets/tesda.jpg",
+    certificate: "/assets/tesda-azure-ai-fundamentals.jpg",
+    issuer: "Technical Education and Skills Development Authority",
+    date: "2026"
+  },
+  {
     title: "Introduction to Data Science",
     logo: "/assets/Department_of_Information_and_Communications_Technology_(DICT)_-_Seal_only.svg",
     certificate: "/assets/INTRODUCTION TO DATA SCIENCE.jfif",

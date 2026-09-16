@@ -21,6 +21,14 @@ interface CertItem {
 
 const certificationsData: CertItem[] = [
   {
+    title: "Microsoft Artificial Intelligence Course: Azure AI Fundamentals",
+    logo: "/assets/tesda.jpg",
+    certificate: "/assets/tesda-azure-ai-fundamentals.jpg",
+    issuer: "Technical Education and Skills Development Authority",
+    shortIssuer: "TESDA",
+    date: "2026",
+  },
+  {
     title: "Introduction to Large Language Models",
     logo: "/assets/google_logo.svg",
     certificate: "/assets/google_llm_badge.svg",

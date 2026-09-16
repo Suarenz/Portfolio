@@ -50,14 +50,10 @@ export default function Home() {
               style={{ animationDelay: "260ms" }}
             >
               <p className="text-gray-500 text-[15px] leading-relaxed">
-                Highly organized and driven to create impactful tech solutions.
-                I specialize in leveraging Natural Language Processing and
-                Machine Learning to streamline processes and deliver
-                high-quality results.
+                Highly organized and detail-oriented fresh graduate with a strong foundation in data management and system administration. Proven ability to streamline office workflows, automate complex report generation, and manage large-scale databases efficiently.
               </p>
               <p className="text-gray-500 text-[15px] leading-relaxed">
-                I am actively seeking roles where I can drive innovation and
-                continue mastering advanced artificial intelligence.
+                Adept at leveraging modern AI tools and data analytics to improve administrative productivity, ensure data accuracy, and support daily organizational operations.
               </p>
             </div>
 
