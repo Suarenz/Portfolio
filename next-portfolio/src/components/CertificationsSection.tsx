@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { X, ArrowUpRight, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -154,6 +154,62 @@ export function CertificationsSection() {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [handleKeyDown]);
 
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [cardWidth, setCardWidth] = useState(300);
+  const touchStartX = useRef<number | null>(null);
+  const gap = 20;
+
+  /* Responsive card width calculation */
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        setCardWidth(250);
+      } else {
+        setCardWidth(300);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  /* Navigation handlers */
+  const handlePrev = useCallback(() => {
+    setActiveIndex((prev) => (prev > 0 ? prev - 1 : certificationsData.length - 1));
+  }, []);
+
+  const handleNext = useCallback(() => {
+    setActiveIndex((prev) => (prev < certificationsData.length - 1 ? prev + 1 : 0));
+  }, []);
+
+  /* Auto-advance carousel gently when not hovering or in modal */
+  useEffect(() => {
+    if (isPaused || selectedCert || showAllCertsModal) return;
+    const timer = setInterval(() => {
+      handleNext();
+    }, 5500);
+    return () => clearInterval(timer);
+  }, [isPaused, selectedCert, showAllCertsModal, handleNext]);
+
+  /* Touch swipe handlers */
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const diff = e.changedTouches[0].clientX - touchStartX.current;
+    if (Math.abs(diff) > 40) {
+      if (diff > 0) {
+        handlePrev();
+      } else {
+        handleNext();
+      }
+    }
+    touchStartX.current = null;
+  };
+
   return (
     <section id="certifications" className="py-14">
       {/* Section Header matching Projects section & reference image */}
@@ -172,56 +228,150 @@ export function CertificationsSection() {
         </button>
       </div>
 
-      {/* ── Top 4 Certification Cards (Main Page Showcase) ── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-        {certificationsData.slice(0, 4).map((cert, i) => (
-          <div
-            key={i}
-            onClick={() => {
-              if (cert.verifyUrl) {
-                window.open(cert.verifyUrl, "_blank");
-              } else {
-                setSelectedCert(cert);
-              }
-            }}
-            className={cn(
-              "group relative rounded-2xl sm:rounded-3xl border border-gray-200/90 dark:border-gray-800/80",
-              "bg-white dark:bg-[#141419] p-6 sm:p-8 flex flex-col items-center justify-between text-center",
-              "shadow-[0_8px_22px_-14px_rgba(0,0,0,0.06)] dark:shadow-[0_15px_35px_-15px_rgba(0,0,0,0.5)]",
-              "hover:shadow-[0_18px_36px_-20px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.8)]",
-              "hover:-translate-y-1.5 hover:border-gray-300 dark:hover:border-gray-700",
-              "transition-all duration-400 ease-out cursor-pointer select-none"
-            )}
-          >
-            {/* Top Logo / Icon Box */}
-            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl border border-gray-200/80 dark:border-gray-700/80 bg-white dark:bg-gray-800/80 flex items-center justify-center p-3 mb-5 shadow-sm group-hover:scale-105 transition-transform duration-300">
-              <img
-                src={cert.logo}
-                alt={cert.title}
-                className="w-full h-full object-contain"
+      {/* ── Center-Focused Certificate Carousel Showcase ── */}
+      <div
+        className="relative w-full overflow-hidden select-none py-4"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
+        {/* Subtle Edge Fade Gradients */}
+        <div className="absolute left-0 top-0 bottom-0 w-10 sm:w-20 bg-gradient-to-r from-bg to-transparent z-30 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-10 sm:w-20 bg-gradient-to-l from-bg to-transparent z-30 pointer-events-none" />
+
+        {/* Carousel Moving Track */}
+        <div
+          className="flex items-center transition-transform duration-500 ease-[cubic-bezier(0.25,0.1,0.25,1)] py-2"
+          style={{
+            transform: `translateX(calc(50% - ${(activeIndex * (cardWidth + gap)) + cardWidth / 2}px))`,
+          }}
+        >
+          {certificationsData.map((cert, i) => {
+            const isCenter = i === activeIndex;
+
+            return (
+              <div
+                key={i}
+                style={{ width: `${cardWidth}px`, marginRight: `${gap}px` }}
+                className="shrink-0 cursor-pointer"
+                onClick={() => {
+                  if (!isCenter) {
+                    setActiveIndex(i);
+                  } else {
+                    if (cert.verifyUrl) {
+                      window.open(cert.verifyUrl, "_blank");
+                    } else {
+                      setSelectedCert(cert);
+                    }
+                  }
+                }}
+              >
+                <div
+                  className={cn(
+                    "relative rounded-2xl sm:rounded-3xl border p-6 sm:p-7 flex flex-col items-center justify-between text-center min-h-[300px] sm:min-h-[320px]",
+                    "transition-all duration-500 ease-[cubic-bezier(0.25,0.1,0.25,1)]",
+                    isCenter
+                      ? "scale-[1.03] z-20 opacity-100 bg-white dark:bg-[#16161b] border-gray-300 dark:border-gray-700 shadow-[0_12px_30px_-10px_rgba(0,0,0,0.12)] dark:shadow-[0_16px_36px_-10px_rgba(0,0,0,0.65)]"
+                      : "scale-100 z-10 opacity-65 sm:opacity-75 bg-white/70 dark:bg-[#121216]/70 border-gray-200/80 dark:border-gray-800/80 shadow-[0_4px_16px_-8px_rgba(0,0,0,0.04)] dark:shadow-[0_6px_20px_-10px_rgba(0,0,0,0.3)] hover:opacity-90"
+                  )}
+                >
+                  {/* Top Logo / Icon Box */}
+                  <div
+                    className={cn(
+                      "w-16 h-16 sm:w-20 sm:h-20 rounded-2xl border flex items-center justify-center p-3 mb-5 transition-transform duration-300 shadow-sm",
+                      isCenter
+                        ? "border-gray-300 dark:border-gray-600 bg-gray-50/80 dark:bg-gray-800/90 scale-105"
+                        : "border-gray-200/80 dark:border-gray-700/80 bg-white dark:bg-gray-800/60"
+                    )}
+                  >
+                    <img
+                      src={cert.logo}
+                      alt={cert.title}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+
+                  {/* Title & Short Issuer */}
+                  <div className="mb-6 flex flex-col items-center">
+                    <h3
+                      className={cn(
+                        "font-sans text-sm sm:text-base font-semibold tracking-tight mb-1.5 leading-snug transition-colors line-clamp-2",
+                        isCenter
+                          ? "text-ink"
+                          : "text-gray-600 dark:text-gray-300"
+                      )}
+                    >
+                      {cert.title}
+                    </h3>
+                    <span className="font-mono text-[11px] sm:text-[12px] uppercase tracking-widest text-gray-400 dark:text-gray-500 font-medium">
+                      {cert.shortIssuer}
+                    </span>
+                  </div>
+
+                  {/* Action Link (⟨ VERIFY ⟩ or ⟨ VIEW ⟩) */}
+                  <div className="mt-auto pt-2">
+                    <span
+                      className={cn(
+                        "inline-flex items-center gap-1.5 font-mono text-xs tracking-widest font-medium transition-colors",
+                        isCenter
+                          ? "text-ink"
+                          : "text-gray-400 group-hover:text-ink dark:text-gray-500 dark:group-hover:text-ink"
+                      )}
+                    >
+                      <span className="text-gray-300 dark:text-gray-600">⟨</span>
+                      <span>{cert.verifyUrl ? "VERIFY" : "VIEW"}</span>
+                      <span className="text-gray-300 dark:text-gray-600">⟩</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* ── Carousel Minimalist Navigation & Step Indicator ── */}
+      <div className="flex items-center justify-between mt-6 px-1">
+        <button
+          onClick={handlePrev}
+          aria-label="Previous certificate"
+          className="group inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-widest text-gray-400 hover:text-ink dark:text-gray-500 dark:hover:text-ink transition-colors cursor-pointer border-0 bg-transparent p-1"
+        >
+          <span className="group-hover:-translate-x-0.5 transition-transform inline-block">⟨</span>
+          <span>PREV</span>
+        </button>
+
+        {/* Minimalist Indicators (Dots + Counter) */}
+        <div className="flex items-center gap-2">
+          <div className="hidden sm:flex items-center gap-1.5">
+            {certificationsData.map((_, dotIdx) => (
+              <button
+                key={dotIdx}
+                onClick={() => setActiveIndex(dotIdx)}
+                aria-label={`Go to certificate ${dotIdx + 1}`}
+                className={cn(
+                  "h-1.5 rounded-full transition-all duration-300 cursor-pointer border-0 p-0",
+                  dotIdx === activeIndex
+                    ? "w-5 bg-ink"
+                    : "w-1.5 bg-gray-300 hover:bg-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600"
+                )}
               />
-            </div>
-
-            {/* Title & Short Issuer */}
-            <div className="mb-6 flex flex-col items-center">
-              <h3 className="font-sans text-base sm:text-lg font-semibold text-ink tracking-tight mb-1.5 leading-snug group-hover:text-ink transition-colors">
-                {cert.title}
-              </h3>
-              <span className="font-mono text-[11px] sm:text-[12px] uppercase tracking-widest text-gray-400 dark:text-gray-500 font-medium">
-                {cert.shortIssuer}
-              </span>
-            </div>
-
-            {/* Verify Button (⟨ VERIFY ⟩) */}
-            <div className="mt-auto pt-2">
-              <span className="inline-flex items-center gap-1.5 font-mono text-xs text-gray-400 group-hover:text-ink dark:text-gray-500 dark:group-hover:text-ink transition-colors tracking-widest font-medium">
-                <span className="text-gray-300 dark:text-gray-600 group-hover:text-ink transition-colors">⟨</span>
-                <span>VERIFY</span>
-                <span className="text-gray-300 dark:text-gray-600 group-hover:text-ink transition-colors">⟩</span>
-              </span>
-            </div>
+            ))}
           </div>
-        ))}
+          <span className="font-mono text-xs text-gray-400 dark:text-gray-500 tracking-wider">
+            {String(activeIndex + 1).padStart(2, "0")} / {String(certificationsData.length).padStart(2, "0")}
+          </span>
+        </div>
+
+        <button
+          onClick={handleNext}
+          aria-label="Next certificate"
+          className="group inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-widest text-gray-400 hover:text-ink dark:text-gray-500 dark:hover:text-ink transition-colors cursor-pointer border-0 bg-transparent p-1"
+        >
+          <span>NEXT</span>
+          <span className="group-hover:translate-x-0.5 transition-transform inline-block">⟩</span>
+        </button>
       </div>
 
       {/* ── All Certifications Modal (Triggered by ALL CERTIFICATIONS ->) ── */}
