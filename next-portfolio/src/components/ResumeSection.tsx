@@ -58,16 +58,11 @@ export function ResumeSection() {
         )}
       >
         {/* Top Header Row: Profile Title + Download/Preview Action Buttons */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-gray-150 dark:border-gray-800/80">
+        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 pb-6 border-b border-gray-150 dark:border-gray-800/80">
           <div>
-            <div className="flex items-center gap-2 mb-1.5">
-              <span className="micro-label text-gray-400 dark:text-gray-500">
-                curriculum vitae
-              </span>
-              <span className="inline-flex items-center whitespace-nowrap px-2.5 py-0.5 rounded-full text-[10.5px] font-mono font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-                ● Available for Roles
-              </span>
-            </div>
+            <span className="micro-label text-gray-400 dark:text-gray-500 mb-1.5 block">
+              curriculum vitae
+            </span>
             <h3 className="font-sans text-xl sm:text-2xl font-semibold text-ink tracking-tight">
               Jan Reinnen Calapao
             </h3>
@@ -76,26 +71,32 @@ export function ResumeSection() {
             </p>
           </div>
 
-          <div className="flex items-center gap-2.5 shrink-0">
-            <a
-              href="/assets/JanReinnen_Calapao_Resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50/80 dark:bg-gray-800/50 text-ink font-mono text-xs font-medium hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors no-underline"
-            >
-              <FileText className="w-3.5 h-3.5 text-gray-500" />
-              <span>Preview PDF</span>
-              <ArrowUpRight className="w-3.5 h-3.5 text-gray-400" />
-            </a>
+          <div className="flex flex-col sm:items-end gap-3 shrink-0">
+            <span className="inline-flex items-center self-start sm:self-end whitespace-nowrap px-2.5 py-0.5 rounded-full text-[10.5px] font-mono font-medium bg-gray-100 dark:bg-gray-800/70 text-ink dark:text-gray-300 border border-gray-200 dark:border-gray-700/80">
+              ● Available for Roles
+            </span>
 
-            <a
-              href="/assets/JanReinnen_Calapao_Resume.pdf"
-              download
-              className="inline-flex items-center gap-2 bg-ink text-bg font-mono text-xs uppercase tracking-wider px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl no-underline hover:opacity-85 transition-opacity duration-200 shadow-sm font-medium"
-            >
-              <Download className="w-3.5 h-3.5" />
-              <span>Download</span>
-            </a>
+            <div className="flex items-center gap-2.5">
+              <a
+                href="/assets/JanReinnen_Calapao_Resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50/80 dark:bg-gray-800/50 text-ink font-mono text-xs font-medium hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors no-underline"
+              >
+                <FileText className="w-3.5 h-3.5 text-gray-500" />
+                <span>Preview PDF</span>
+                <ArrowUpRight className="w-3.5 h-3.5 text-gray-400" />
+              </a>
+
+              <a
+                href="/assets/JanReinnen_Calapao_Resume.pdf"
+                download
+                className="inline-flex items-center gap-2 bg-ink text-bg font-mono text-xs uppercase tracking-wider px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl no-underline hover:opacity-85 transition-opacity duration-200 shadow-sm font-medium"
+              >
+                <Download className="w-3.5 h-3.5" />
+                <span>Download</span>
+              </a>
+            </div>
           </div>
         </div>
 
@@ -241,7 +242,7 @@ export function ResumeSection() {
                 key={cert}
                 className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border border-gray-200/70 dark:border-gray-800/70 bg-gray-50/60 dark:bg-gray-900/30 text-gray-600 dark:text-gray-300 text-[11px]"
               >
-                <Sparkles className="w-2.5 h-2.5 text-amber-500" />
+                <Sparkles className="w-2.5 h-2.5 text-gray-400 dark:text-gray-500" />
                 <span>{cert}</span>
               </span>
             ))}

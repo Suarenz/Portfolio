@@ -351,10 +351,10 @@ export function SelectedProjects() {
                     <img
                       src={project.image}
                       alt={project.cardTitle}
-                      className="w-full h-full object-cover object-center"
+                      className="w-full h-full object-cover object-center grayscale contrast-110"
                     />
                   </div>
-                  <h3 className="font-mono text-base sm:text-lg font-medium text-ink tracking-tight leading-snug group-hover:text-blue-500 transition-colors">
+                  <h3 className="font-mono text-base sm:text-lg font-medium text-ink tracking-tight leading-snug group-hover:text-ink transition-colors">
                     {project.cardTitle}
                   </h3>
                 </div>
@@ -459,7 +459,6 @@ export function SelectedProjects() {
                         alt={project.title}
                         className="w-full h-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.03]"
                       />
-                      <div className="absolute inset-0 halftone opacity-10 pointer-events-none mix-blend-multiply dark:mix-blend-overlay" />
                     </div>
 
                     {/* Content Area */}
@@ -606,7 +605,7 @@ export function SelectedProjects() {
                           className="w-full h-full object-contain p-2 transition-transform duration-300 group-hover/img:scale-[1.03]"
                           loading="lazy"
                         />
-                        <div className="absolute inset-0 bg-black/0 group-hover/img:bg-black/10 dark:group-hover/img:bg-white/5 transition-colors pointer-events-none flex items-end justify-end p-2.5">
+                        <div className="absolute bottom-2.5 right-2.5 pointer-events-none">
                           <span className="micro-label opacity-0 group-hover/img:opacity-100 transition-opacity bg-bg/95 backdrop-blur-sm border border-gray-200 dark:border-gray-800 px-2 py-1 rounded text-[10px] text-ink shadow-sm flex items-center gap-1 font-mono">
                             <span>HOVER TO ENLARGE</span>
                             <ArrowUpRight className="w-3 h-3" />

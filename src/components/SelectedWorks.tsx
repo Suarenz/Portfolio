@@ -140,9 +140,6 @@ export function SelectedWorks() {
                 referrerPolicy="no-referrer"
               />
               
-              {/* Halftone Overlay */}
-              <div className="absolute inset-0 bg-[radial-gradient(circle,#000_1px,transparent_1px)] bg-[length:4px_4px] opacity-20 mix-blend-multiply pointer-events-none" />
-              
             </motion.div>
           ))}
         </div>

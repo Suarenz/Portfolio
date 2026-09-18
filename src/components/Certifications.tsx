@@ -158,8 +158,6 @@ export function Certifications() {
                     className="w-full h-full object-cover object-center group-hover/card:scale-105 transition-all duration-1000 ease-[cubic-bezier(0.25,0.1,0.25,1)] will-change-transform"
                     referrerPolicy="no-referrer"
                   />
-                  {/* Dark Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-bg/20 to-surface/30 group-hover/card:to-surface" />
                 </div>
 
                 {/* 2. The Badge (Intersecting) */}
@@ -168,7 +166,7 @@ export function Certifications() {
                     <img 
                       src={entry.logo} 
                       alt={`${entry.issuer} Logo`} 
-                      className="w-full h-full object-contain"
+                      className="w-full h-full object-contain grayscale contrast-110 opacity-85 group-hover:opacity-100 transition-opacity"
                     />
                   </div>
                 </div>
@@ -234,7 +232,7 @@ export function Certifications() {
                         <img 
                           src={entry.logo} 
                           alt={`${entry.issuer} Logo`} 
-                          className="w-full h-full object-contain"
+                          className="w-full h-full object-contain grayscale contrast-110 opacity-85 group-hover:opacity-100 transition-opacity"
                         />
                       </div>
                       <div className="flex-1 min-w-0">

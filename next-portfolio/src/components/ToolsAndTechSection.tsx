@@ -218,7 +218,7 @@ export function ToolsAndTechSection() {
                         src={item.icon}
                         alt={item.name}
                         className={cn(
-                          "w-full h-full object-contain",
+                          "w-full h-full object-contain grayscale opacity-75 group-hover:opacity-100 transition-all duration-300",
                           item.name === "GitHub" && "dark:invert"
                         )}
                         loading="lazy"

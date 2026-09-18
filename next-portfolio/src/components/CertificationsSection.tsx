@@ -288,7 +288,7 @@ export function CertificationsSection() {
                     <img
                       src={cert.logo}
                       alt={cert.title}
-                      className="w-full h-full object-contain"
+                      className="w-full h-full object-contain grayscale contrast-110 opacity-85 group-hover:opacity-100 transition-opacity duration-300"
                     />
                   </div>
 
@@ -434,7 +434,6 @@ export function CertificationsSection() {
                           className="w-full h-full object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.04]"
                           loading="lazy"
                         />
-                        <div className="absolute inset-0 halftone opacity-10 pointer-events-none mix-blend-multiply dark:mix-blend-overlay" />
                       </div>
 
                       {/* Issuer Badge + Date */}
@@ -464,7 +463,7 @@ export function CertificationsSection() {
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={(e) => e.stopPropagation()}
-                          className="micro-label text-blue-500 hover:underline flex items-center gap-1 no-underline"
+                          className="micro-label text-ink hover:underline flex items-center gap-1 no-underline"
                         >
                           <span>CREDLY</span>
                           <ExternalLink className="w-3 h-3" />
