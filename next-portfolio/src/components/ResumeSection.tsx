@@ -116,7 +116,7 @@ export function ResumeSection() {
                   Municipality of Pagsanjan – PDAO
                 </h4>
                 <span className="font-mono text-xs text-gray-400 dark:text-gray-500 shrink-0">
-                  Internship • 2024
+                  Internship • 2026
                 </span>
               </div>
               <p className="text-xs font-mono text-gray-500 dark:text-gray-400 mb-2">
